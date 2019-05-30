@@ -29,7 +29,7 @@ echo 'Add SSH keys...'
 mkdir /home/minecraft/.ssh
 echo $PUBKEY > /home/minecraft/.ssh/authorized_keys
 chmod -R 700 /home/minecraft/.ssh && chmod 600 /home/minecraft/.ssh/authorized_keys
-chown -R mincraft:minecraft /home/minecraft/.ssh
+chown -R minecraft:minecraft /home/minecraft/.ssh
 
 # ssh settings
 sed -i 's/#*Port.*/Port 22/g' /etc/ssh/sshd_config
@@ -51,6 +51,7 @@ ufw --force enable
 echo 'Installing packages...'
 apt-get install -y openjdk-8-jre-headless screen
 
-# install minecraft
+# download minecraft
+echo 'Downloading minecraft...'
 cd /home/minecraft
 wget https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar -O minecraft_server.1.14.2.jar
