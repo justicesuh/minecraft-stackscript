@@ -55,3 +55,35 @@ apt-get install -y openjdk-8-jre-headless screen
 echo 'Downloading minecraft...'
 cd /home/minecraft
 wget https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar -O minecraft_server.1.14.2.jar
+echo eula=true > eula.txt
+
+# set up systemd service
+echo 'Setting up systemd...'
+cat > /etc/systemd/system/minecraft.service <<EOF
+[Unit]
+Description=Minecraft Server
+After=network.target
+
+[Service]
+WorkingDirectory=/home/minecraft
+User=minecraft
+Group=minecraft
+ProtectSystem=true
+
+ExecStart=/usr/bin/screen -DmS minecraft /usr/bin/java -Xms512M -Xmx3584M -jar minecraft_server.1.14.2.jar nogui
+
+ExecReload=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "reload"\\015"'
+
+ExecStop=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "say Shutting Down Server.  Saving Map..."\\015'
+ExecStop=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "save-all"\\015'
+ExecStop=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "stop"\\015'
+ExecStop=/bin/sleep 10
+
+Restart=on-failure
+RestartSec=120s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable minecraft
+systemctl start minecraft
