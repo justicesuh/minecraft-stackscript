@@ -46,3 +46,11 @@ ufw default deny incoming
 ufw allow 22
 ufw allow 25565
 ufw --force enable
+
+# install packages
+echo 'Installing packages...'
+apt-get install -y openjdk-8-jre-headless screen
+
+# install minecraft
+cd /home/minecraft
+wget https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar -O minecraft_server.1.14.2.jar
