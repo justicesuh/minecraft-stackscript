@@ -51,7 +51,7 @@ ufw --force enable
 
 # install packages
 echo 'Installing packages...'
-apt-get install -y openjdk-8-jre-headless screen
+apt-get install -y openjdk-8-jre-headless screen jq
 
 # download minecraft
 echo 'Downloading minecraft...'
@@ -71,6 +71,8 @@ cat > ops.json <<EOF
   }
 ]
 EOF
+
+chown -R minecraft:minecraft /home/minecraft
 
 # set up systemd service
 echo 'Setting up systemd...'
