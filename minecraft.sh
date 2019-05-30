@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # <UDF name="fqdn" label="Fully Qualified Domain Name">
+# <UDF name="pubkey" label="SSH key for minecraft user">
+
+exec > /root/stackscript.log 2>&1
 
 # get ip address
 IPADDR=$(ip addr show eth0 | awk '/inet / { print $2 }' | sed 's/\/[0-9]*//')
@@ -27,6 +30,13 @@ mkdir /home/minecraft/.ssh
 echo $PUBKEY > /home/minecraft/.ssh/authorized_keys
 chmod -R 700 /home/minecraft/.ssh && chmod 600 /home/minecraft/.ssh/authorized_keys
 chown -R mincraft:minecraft /home/minecraft/.ssh
+
+# ssh settings
+sed -i 's/#*Port.*/Port 22/g' /etc/ssh/sshd_config
+sed -i 's/#*AddressFamily.*/AddressFamily inet/g' /etc/ssh/sshd_config
+sed -i 's/#*PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config
+sed -i 's/#*PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config
+systemctl restart sshd
 
 # set up firewall
 echo 'Set up firewall...'
