@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # <UDF name="fqdn" label="Fully Qualified Domain Name">
-# <UDF name="pubkey" label="SSH key for minecraft user">
+# <UDF name="password" label="Password for non-root user">
+# <UDF name="pubkey" label="SSH key for non-root user">
+# <UDF name="op" label="Minecraft OP username">>
 
 exec > /root/stackscript.log 2>&1
 
@@ -56,6 +58,19 @@ echo 'Downloading minecraft...'
 cd /home/minecraft
 wget https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar -O minecraft_server.1.14.2.jar
 echo eula=true > eula.txt
+
+# add initial OP
+echo 'Setting initial OP user...'
+UUID=$(curl -s https://api.mojang.com/users/profiles/minecraft/$OP | jq '.id')
+cat > ops.json <<EOF
+[
+  {
+    "uuid": $UUID,
+    "name": "$OP",
+    "level": 4
+  }
+]
+EOF
 
 # set up systemd service
 echo 'Setting up systemd...'
