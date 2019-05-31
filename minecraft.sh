@@ -88,7 +88,7 @@ User=minecraft
 Group=minecraft
 ProtectSystem=true
 
-ExecStart=/usr/bin/screen -DmS minecraft /usr/bin/java -Xms512M -Xmx3584M -jar minecraft_server.1.14.2.jar nogui
+ExecStart=/usr/bin/screen -DmS minecraft /usr/bin/java -Xms1024M -Xmx3584M -jar minecraft_server.1.14.2.jar nogui
 
 ExecReload=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "reload"\\015"'
 
