@@ -56,7 +56,7 @@ apt-get install -y openjdk-8-jre-headless screen jq
 # download minecraft
 echo 'Downloading minecraft...'
 cd /home/minecraft
-wget https://launcher.mojang.com/v1/objects/808be3869e2ca6b62378f9f4b33c946621620019/server.jar -O minecraft_server.1.14.2.jar
+wget https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar -O minecraft_server.1.13.2.jar
 echo eula=true > eula.txt
 
 # add initial OP
@@ -88,7 +88,7 @@ User=minecraft
 Group=minecraft
 ProtectSystem=true
 
-ExecStart=/usr/bin/screen -DmS minecraft /usr/bin/java -Xms1024M -Xmx3584M -jar minecraft_server.1.14.2.jar nogui
+ExecStart=/usr/bin/screen -DmS minecraft /usr/bin/java -Xms1024M -Xmx3584M -jar minecraft_server.1.13.2.jar nogui
 
 ExecReload=/usr/bin/screen -p 0 -S minecraft -X eval 'stuff "reload"\\015"'
 
