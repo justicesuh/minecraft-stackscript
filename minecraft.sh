@@ -62,6 +62,7 @@ echo eula=true > eula.txt
 # add initial OP
 echo 'Setting initial OP user...'
 UUID=$(curl -s https://api.mojang.com/users/profiles/minecraft/$OP | jq '.id')
+UUID=${UUID:0:9}-${UUID:9:4}-${UUID:13:4}-${UUID:17:4}-${UUID:21:13}
 cat > ops.json <<EOF
 [
   {
